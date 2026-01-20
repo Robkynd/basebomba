@@ -64,8 +64,8 @@ function generateMap() {
   emptyTiles.sort(() => Math.random() - 0.5);
 
   const total = emptyTiles.length;
-  const soft1Count = Math.floor(total * 0.30);
-  const soft2Count = Math.floor(total * 0.20);
+  const soft1Count = Math.floor(total * 0.50);
+  const soft2Count = Math.floor(total * 0.30);
 
   // PLACE SOFT1
   for (let i = 0; i < soft1Count; i++) {
