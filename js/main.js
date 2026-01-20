@@ -14,6 +14,7 @@ canvas.height = ROWS * TILE;
 const EMPTY = 0;
 const WALL  = 1;
 const BLOCK = 2;
+const HARD  = 3;
 
 let map = [];
 
@@ -29,7 +30,11 @@ function generateMap() {
       if (x === 0 || y === 0 || x === COLS-1 || y === ROWS-1) {
         row.push(WALL);
       } else {
-        row.push(Math.random() < 0.25 ? BLOCK : EMPTY);
+        const r = Math.random();
+
+if (r < 0.2) row.push(BLOCK);      // 20% block hancur
+else if (r < 0.3) row.push(HARD);  // 10% rintangan keras
+else row.push(EMPTY);
       }
     }
     map.push(row);
@@ -49,6 +54,7 @@ function draw() {
     for (let x = 0; x < COLS; x++) {
       if (map[y][x] === WALL) ctx.fillStyle = "#555";
       else if (map[y][x] === BLOCK) ctx.fillStyle = "#aa6666";
+      else if (map[y][x] === HARD) ctx.fillStyle = "#663300";
       else continue;
 
       ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
