@@ -32,7 +32,7 @@ function generateMap() {
 
       // border wall
       if (x === 0 || y === 0 || x === COLS-1 || y === ROWS-1) {
-        row.push(WALL);
+        row.push(EMPTY);
       }
       // silang wall (bomberman classic)
       else if (x % 2 === 0 && y % 2 === 0) {
