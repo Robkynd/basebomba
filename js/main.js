@@ -91,11 +91,19 @@ document.addEventListener("keydown", (e) => {
 });
 
 // touch (HP)
+
 document.querySelectorAll("#controls button").forEach(btn => {
+
+  // HP (touch)
   btn.addEventListener("touchstart", (e) => {
     e.preventDefault();
     movePlayer(btn.dataset.dir);
   });
-});
 
+  // PC (mouse)
+  btn.addEventListener("click", () => {
+    movePlayer(btn.dataset.dir);
+  });
+
+});
 draw();
