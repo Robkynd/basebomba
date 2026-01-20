@@ -8,7 +8,8 @@ const ROWS = 13;
 canvas.width = COLS * TILE;
 canvas.height = ROWS * TILE;
 
-// MAP: 0 kosong, 1 wall, 2 block
+// ===== MAP =====
+// 0 kosong | 1 wall | 2 block
 const map = [];
 
 for (let y = 0; y < ROWS; y++) {
@@ -33,14 +34,14 @@ map[1][1] = 0;
 map[1][2] = 0;
 map[2][1] = 0;
 
-// PLAYER
+// ===== PLAYER =====
 const player = {
   x: 1,
   y: 1,
   color: "#00ffcc"
 };
 
-// DRAW
+// ===== DRAW =====
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -64,20 +65,37 @@ function draw() {
   );
 }
 
-draw();
-document.addEventListener("keydown", (e) => {
+// ===== MOVE =====
+function movePlayer(dir) {
   let nx = player.x;
   let ny = player.y;
 
-  if (e.key === "ArrowUp") ny--;
-  if (e.key === "ArrowDown") ny++;
-  if (e.key === "ArrowLeft") nx--;
-  if (e.key === "ArrowRight") nx++;
+  if (dir === "up") ny--;
+  if (dir === "down") ny++;
+  if (dir === "left") nx--;
+  if (dir === "right") nx++;
 
-  // cek tabrakan
   if (map[ny][nx] === 0) {
     player.x = nx;
     player.y = ny;
     draw();
   }
+}
+
+// keyboard (PC)
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowUp") movePlayer("up");
+  if (e.key === "ArrowDown") movePlayer("down");
+  if (e.key === "ArrowLeft") movePlayer("left");
+  if (e.key === "ArrowRight") movePlayer("right");
 });
+
+// touch (HP)
+document.querySelectorAll("#controls button").forEach(btn => {
+  btn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    movePlayer(btn.dataset.dir);
+  });
+});
+
+draw();
