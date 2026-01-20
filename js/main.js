@@ -25,55 +25,56 @@ const player = { x: 1, y: 1 };
 function generateMap() {
   map = [];
 
-  // FIRST PASS: wall + empty (silang)
+  // 1️⃣ BASE MAP: wall silang + empty
   for (let y = 0; y < ROWS; y++) {
     let row = [];
     for (let x = 0; x < COLS; x++) {
-
-      // silang wall (bomberman classic)
-      else if (x % 2 === 0 && y % 2 === 0) {
-        row.push(WALL);
-      }
-      else {
-        row.push(EMPTY);
+      if (x % 2 === 0 && y % 2 === 0) {
+        row.push(WALL); // tembok keras
+      } else {
+        row.push(EMPTY); // termasuk border
       }
     }
     map.push(row);
   }
 
-  // clear spawn area
-  map[1][1] = EMPTY;
-  map[1][2] = EMPTY;
-  map[2][1] = EMPTY;
-
-  // COLLECT EMPTY TILES
+  // 2️⃣ KUMPULKAN SEMUA TILE EMPTY (TERMAsuk BORDER)
   let emptyTiles = [];
-  for (let y = 1; y < ROWS-1; y++) {
-    for (let x = 1; x < COLS-1; x++) {
-      if (map[y][x] === EMPTY && isNearSpawn(x,y)) {
-        emptyTiles.push({x,y});
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+      if (map[y][x] === EMPTY) {
+        emptyTiles.push({ x, y });
       }
     }
   }
 
-  // SHUFFLE
+  // acak
   emptyTiles.sort(() => Math.random() - 0.5);
 
   const total = emptyTiles.length;
-  const soft1Count = Math.floor(total * 0.50);
+  const soft1Count = Math.floor(total * 0.40);
   const soft2Count = Math.floor(total * 0.30);
 
-  // PLACE SOFT1
+  // 3️⃣ PASANG SOFT1
   for (let i = 0; i < soft1Count; i++) {
     const t = emptyTiles[i];
     map[t.y][t.x] = SOFT1;
   }
 
-  // PLACE SOFT2
+  // 4️⃣ PASANG SOFT2
   for (let i = soft1Count; i < soft1Count + soft2Count; i++) {
     const t = emptyTiles[i];
     map[t.y][t.x] = SOFT2;
   }
+
+  // 5️⃣ TERAKHIR — CLEAR SPAWN (ANTI KETIMPA)
+  const spawnClear = [
+    [1,1],[1,2],[2,1]
+  ];
+
+  spawnClear.forEach(([x,y]) => {
+    map[y][x] = EMPTY;
+  });
 }
 
 // DRAW
