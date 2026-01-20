@@ -30,10 +30,6 @@ function generateMap() {
     let row = [];
     for (let x = 0; x < COLS; x++) {
 
-      // border wall
-      if (x === 0 || y === 0 || x === COLS-1 || y === ROWS-1) {
-        row.push(EMPTY);
-      }
       // silang wall (bomberman classic)
       else if (x % 2 === 0 && y % 2 === 0) {
         row.push(WALL);
@@ -54,7 +50,7 @@ function generateMap() {
   let emptyTiles = [];
   for (let y = 1; y < ROWS-1; y++) {
     for (let x = 1; x < COLS-1; x++) {
-      if (map[y][x] === EMPTY) {
+      if (map[y][x] === EMPTY && isNearSpawn(x,y)) {
         emptyTiles.push({x,y});
       }
     }
