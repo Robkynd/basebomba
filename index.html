@@ -6,41 +6,48 @@
   <title>Basebomba</title>
 
   <style>
-    * { box-sizing: border-box; }
-
     html, body {
       margin: 0;
       padding: 0;
-      width: 100%;
-      height: 100%;
       background: #111;
-      overflow: auto;
+      color: white;
+      text-align: center;
     }
 
-    body {
-      display: block;
-      text-align: center;
+    #ui {
+      margin-top: 10px;
+    }
+
+    button {
+      width: 60px;
+      height: 60px;
+      font-size: 18px;
+      margin: 4px;
     }
 
     canvas {
       display: block;
-      margin: 20px auto;
-      background: #000;
+      margin: 10px auto;
+      background: black;
       border: 2px solid #444;
-      max-width: 100%;
-      height: auto;
     }
   </style>
 </head>
 
 <body>
 
-  <h2 style="color:white;">Basebomba is Alive 🔥</h2>
+  <h2>Basebomba is Alive 🔥</h2>
 
-  <!-- CANVAS DI SINI -->
   <canvas id="game"></canvas>
 
-  <!-- JS HARUS DI SINI (PALING BAWAH) -->
+  <div id="ui">
+    <button onclick="move(0,-1)">⬆️</button><br>
+    <button onclick="move(-1,0)">⬅️</button>
+    <button onclick="move(1,0)">➡️</button><br>
+    <button onclick="move(0,1)">⬇️</button><br>
+    <button onclick="dropBomb()">💣</button>
+  </div>
+
   <script src="main.js"></script>
 
 </body>
