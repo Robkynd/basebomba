@@ -35,7 +35,7 @@ canvas {
 #joystick {
   position: absolute;
   left: 40px;
-  bottom: 100px;
+  bottom: 1000px;
   width: 140px;
   height: 140px;
   background: rgba(255,255,255,0.1);
