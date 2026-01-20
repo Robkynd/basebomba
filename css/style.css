@@ -23,7 +23,7 @@
   pointer-events: auto;
   position: absolute;
   bottom: 50px;       /* sesuaikan tinggi agar sejajar tombol tengah Dpad */
-  left: 140px;        /* geser ke kanan dari Dpad */
+  left: 500px;        /* geser ke kanan dari Dpad */
 }
 
 /* Tombol Dpad */
