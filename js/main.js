@@ -32,6 +32,11 @@ for (let y = 0; y < ROWS; y++) {
 map[1][1] = 0;
 map[1][2] = 0;
 map[2][1] = 0;
+const player = {
+  x: 1,
+  y: 1,
+  color: "#00ffcc"
+};
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -48,6 +53,27 @@ function draw() {
       ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
     }
   }
-}
 
-draw();
+ctx.fillStyle = player.color;
+  ctx.fillRect(
+    player.x * TILE + 4,
+    player.y * TILE + 4,
+    TILE - 8,
+    TILE - 8
+  );
+  document.addEventListener("keydown", (e) => {
+  let nx = player.x;
+  let ny = player.y;
+
+  if (e.key === "ArrowUp") ny--;
+  if (e.key === "ArrowDown") ny++;
+  if (e.key === "ArrowLeft") nx--;
+  if (e.key === "ArrowRight") nx++;
+
+  if (map[ny][nx] === 0) {
+    player.x = nx;
+    player.y = ny;
+    draw();
+  }
+});
+}
