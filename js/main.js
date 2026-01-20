@@ -1,5 +1,10 @@
 console.log("JS LOADED");
 
+const TILE_EMPTY = 0;
+const TILE_WALL  = 1;
+const TILE_BLOCK = 2;
+const TILE_HARD  = 3;
+
 const TILE = 32;
 const COLS = 24;
 const ROWS = 14;
@@ -20,7 +25,11 @@ function generateMap() {
       if (y === 0 || y === ROWS-1 || x === 0 || x === COLS-1) {
         row.push(1); // wall
       } else {
-        row.push(Math.random() < 0.2 ? 2 : 0); // block / empty
+      const r = Math.random();
+
+if (r < 0.15) row.push(TILE_BLOCK);
+else if (r < 0.25) row.push(TILE_HARD);
+else row.push(TILE_EMPTY);   // block / empty
       }
     }
     map.push(row);
@@ -42,8 +51,10 @@ function draw() {
 
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
-      if (map[y][x] === 1) ctx.fillStyle = "#555";
-      else if (map[y][x] === 2) ctx.fillStyle = "#a66";
+      if (map[y][x] === TILE_WALL) ctx.fillStyle = "#555";
+else if (map[y][x] === TILE_BLOCK) ctx.fillStyle = "#a66";
+else if (map[y][x] === TILE_HARD) ctx.fillStyle = "#664400";
+else continue;
       else continue;
 
       ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
@@ -59,7 +70,7 @@ function move(dx, dy) {
   const nx = player.x + dx;
   const ny = player.y + dy;
 
-  if (map[ny][nx] === 0) {
+  if (map[ny][nx] === TITLE_EMPTY) {
     player.x = nx;
     player.y = ny;
     draw();
