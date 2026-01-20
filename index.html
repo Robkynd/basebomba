@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Basebomba</title>
+  <title>Basebomba 🔥</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -12,43 +12,91 @@
       color: white;
       text-align: center;
       font-family: sans-serif;
+      overflow: hidden; /* canvas fullscreen */
     }
 
     canvas {
       background: black;
       display: block;
-      margin: 10px auto;
+      margin: 0 auto;
       border: 2px solid #444;
     }
 
-    #ui button {
-      width: 60px;
-      height: 60px;
-      margin: 4px;
-      font-size: 18px;
+    /* UI container */
+    #ui {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      height: 150px;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Dpad kiri bawah */
+    #dpad {
+      pointer-events: auto;
+      position: absolute;
+      left: 20px;
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Tombol bom di kanan Dpad */
+    #bomb-btn {
+      pointer-events: auto;
+      position: absolute;
+      bottom: 50px; /* sejajar tombol tengah Dpad */
+      left: 140px;  /* geser ke kanan dari Dpad */
+    }
+
+    /* Tombol Dpad */
+    #dpad button {
+      width: 70px;
+      height: 70px;
+      margin: 5px;
+      font-size: 28px;
+      background: #222;
+      color: white;
+      border: 3px solid #555;
+      border-radius: 10px;
+    }
+
+    /* Tombol bom besar */
+    #bomb-btn button {
+      width: 100px;
+      height: 100px;
+      font-size: 48px;
+      background: red;
+      color: white;
+      border: 4px solid #aa0000;
+      border-radius: 15px;
     }
   </style>
 </head>
-
 <body>
 
-<h2>Basebomba 🔥</h2>
+  <h2>Basebomba 🔥</h2>
 
-<canvas id="game"></canvas>
+  <canvas id="game"></canvas>
 
-<div id="ui">
-  <div id="dpad">
-    <button onclick="move(0,-1)">⬆️</button><br>
-    <button onclick="move(-1,0)">⬅️</button>
-    <button onclick="move(1,0)">➡️</button><br>
-    <button onclick="move(0,1)">⬇️</button>
+  <!-- UI -->
+  <div id="ui">
+    <!-- Dpad kiri bawah -->
+    <div id="dpad">
+      <button onclick="move(0,-1)">⬆️</button><br>
+      <button onclick="move(-1,0)">⬅️</button>
+      <button onclick="move(1,0)">➡️</button><br>
+      <button onclick="move(0,1)">⬇️</button>
+    </div>
+
+    <!-- Bomb kanan Dpad -->
+    <div id="bomb-btn">
+      <button onclick="bomb()">💣</button>
+    </div>
   </div>
 
-  <div id="bomb-btn">
-    <button onclick="bomb()">💣</button>
-  </div>
-</div>
-
-<script src="js/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
