@@ -1,34 +1,39 @@
 #ui {
   position: fixed;
   bottom: 20px;
+  left: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
-  pointer-events: none; /* biar canvas tetep bisa di tap */
+  z-index: 100;
+  pointer-events: none; /* biar canvas tetap bisa touch, tombol di bawah ini override */
 }
 
 #dpad, #bomb-btn {
   pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #dpad button {
-  width: 50px;
-  height: 50px;
-  margin: 2px;
-  font-size: 20px;
+  width: 70px;      /* BESAR */
+  height: 70px;     /* BESAR */
+  margin: 5px;
+  font-size: 28px;  /* font lebih gede */
   background: #222;
   color: white;
-  border: 2px solid #555;
-  border-radius: 6px;
+  border: 3px solid #555;
+  border-radius: 10px;
 }
 
 #bomb-btn button {
-  width: 80px;
-  height: 80px;
-  font-size: 36px;
+  width: 100px;     /* SUPER BESAR */
+  height: 100px;    /* SUPER BESAR */
+  font-size: 48px;  /* SUPER Gede */
   background: red;
   color: white;
-  border: 3px solid #aa0000;
-  border-radius: 12px;
+  border: 4px solid #aa0000;
+  border-radius: 15px;
 }
