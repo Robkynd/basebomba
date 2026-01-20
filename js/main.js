@@ -2,13 +2,13 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
 const TILE = 32;
-const COLS = 13;
-const ROWS = 13;
+const COLS = 24;
+const ROWS = 14;
 
 canvas.width = COLS * TILE;
 canvas.height = ROWS * TILE;
 
-// ===== MAP =====
+// ================= MAP =================
 // 0 kosong | 1 wall | 2 block
 const map = [];
 
@@ -34,17 +34,21 @@ map[1][1] = 0;
 map[1][2] = 0;
 map[2][1] = 0;
 
-// ===== PLAYER =====
+// ================= PLAYER =================
 const player = {
   x: 1,
   y: 1,
   color: "#00ffcc"
 };
 
-// ===== DRAW =====
+// ================= BOMB =================
+let bombs = [];
+
+// ================= DRAW =================
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // map
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
       if (map[y][x] === 1) ctx.fillStyle = "#444";
@@ -54,6 +58,20 @@ function draw() {
       ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
     }
   }
+
+  // bombs
+  bombs.forEach(b => {
+    ctx.fillStyle = "red";
+    ctx.beginPath();
+    ctx.arc(
+      b.x * TILE + TILE / 2,
+      b.y * TILE + TILE / 2,
+      TILE / 4,
+      0,
+      Math.PI * 2
+    );
+    ctx.fill();
+  });
 
   // player
   ctx.fillStyle = player.color;
@@ -65,7 +83,7 @@ function draw() {
   );
 }
 
-// ===== MOVE =====
+// ================= MOVE =================
 function movePlayer(dir) {
   let nx = player.x;
   let ny = player.y;
@@ -82,28 +100,64 @@ function movePlayer(dir) {
   }
 }
 
-// keyboard (PC)
-document.addEventListener("keydown", (e) => {
+// ================= BOMB LOGIC =================
+function placeBomb() {
+  // cegah dobel bom di tile sama
+  if (bombs.some(b => b.x === player.x && b.y === player.y)) return;
+
+  bombs.push({
+    x: player.x,
+    y: player.y
+  });
+
+  setTimeout(() => explodeBomb(player.x, player.y), 2000);
+}
+
+function explodeBomb(x, y) {
+  const blast = [
+    { x, y },
+    { x: x + 1, y },
+    { x: x - 1, y },
+    { x, y + 1 },
+    { x, y - 1 }
+  ];
+
+  blast.forEach(p => {
+    if (map[p.y] && map[p.y][p.x] === 2) {
+      map[p.y][p.x] = 0;
+    }
+  });
+
+  bombs = bombs.filter(b => !(b.x === x && b.y === y));
+  draw();
+}
+
+// ================= INPUT =================
+
+// keyboard
+document.addEventListener("keydown", e => {
   if (e.key === "ArrowUp") movePlayer("up");
   if (e.key === "ArrowDown") movePlayer("down");
   if (e.key === "ArrowLeft") movePlayer("left");
   if (e.key === "ArrowRight") movePlayer("right");
+  if (e.key === " ") placeBomb(); // spasi = bom
 });
 
-// touch (HP)
-
-document.querySelectorAll("#controls button").forEach(btn => {
-
-  // HP (touch)
-  btn.addEventListener("touchstart", (e) => {
+// buttons (touch + click)
+document.querySelectorAll("#controls button[data-dir]").forEach(btn => {
+  btn.addEventListener("click", () => movePlayer(btn.dataset.dir));
+  btn.addEventListener("touchstart", e => {
     e.preventDefault();
     movePlayer(btn.dataset.dir);
   });
-
-  // PC (mouse)
-  btn.addEventListener("click", () => {
-    movePlayer(btn.dataset.dir);
-  });
-
 });
+
+// bomb button
+document.getElementById("bombBtn").addEventListener("click", placeBomb);
+document.getElementById("bombBtn").addEventListener("touchstart", e => {
+  e.preventDefault();
+  placeBomb();
+});
+
+// first render
 draw();
