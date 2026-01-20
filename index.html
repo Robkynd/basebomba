@@ -12,7 +12,7 @@
       color: white;
       text-align: center;
       font-family: sans-serif;
-      overflow: hidden; /* canvas fullscreen */
+      overflow: hidden;
     }
 
     canvas {
@@ -47,8 +47,8 @@
     #bomb-btn {
       pointer-events: auto;
       position: absolute;
-      bottom: 50px; /* sejajar tombol tengah Dpad */
-      left: 140px;  /* geser ke kanan dari Dpad */
+      bottom: 50px; 
+      left: 140px; 
     }
 
     /* Tombol Dpad */
@@ -83,7 +83,6 @@
 
   <!-- UI -->
   <div id="ui">
-    <!-- Dpad kiri bawah -->
     <div id="dpad">
       <button onclick="move(0,-1)">⬆️</button><br>
       <button onclick="move(-1,0)">⬅️</button>
@@ -91,7 +90,6 @@
       <button onclick="move(0,1)">⬇️</button>
     </div>
 
-    <!-- Bomb kanan Dpad -->
     <div id="bomb-btn">
       <button onclick="bomb()">💣</button>
     </div>
