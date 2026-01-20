@@ -2,8 +2,9 @@
   position: fixed;
   bottom: 20px;
   width: 100%;
+  height: 150px; /* cukup tinggi untuk Dpad + bomb */
+  pointer-events: none;
   z-index: 100;
-  pointer-events: none; /* biar canvas masih bisa touch */
 }
 
 /* Dpad kiri bawah */
@@ -17,12 +18,12 @@
   align-items: center;
 }
 
-/* Tombol bom kanan bawah */
+/* Tombol bom di kanan Dpad */
 #bomb-btn {
   pointer-events: auto;
   position: absolute;
-  right: 20px;
-  bottom: 20px;
+  bottom: 50px;       /* sesuaikan tinggi agar sejajar tombol tengah Dpad */
+  left: 140px;        /* geser ke kanan dari Dpad */
 }
 
 /* Tombol Dpad */
