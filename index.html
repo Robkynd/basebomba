@@ -36,40 +36,18 @@
 
 <canvas id="game"></canvas>
 
-#ui {
-  position: fixed;
-  bottom: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
-  pointer-events: none; /* biar canvas tetep bisa di tap */
-}
+<div id="ui">
+  <div id="dpad">
+    <button onclick="move(0,-1)">⬆️</button><br>
+    <button onclick="move(-1,0)">⬅️</button>
+    <button onclick="move(1,0)">➡️</button><br>
+    <button onclick="move(0,1)">⬇️</button>
+  </div>
 
-#dpad, #bomb-btn {
-  pointer-events: auto;
-}
-
-#dpad button {
-  width: 50px;
-  height: 50px;
-  margin: 2px;
-  font-size: 20px;
-  background: #222;
-  color: white;
-  border: 2px solid #555;
-  border-radius: 6px;
-}
-
-#bomb-btn button {
-  width: 80px;
-  height: 80px;
-  font-size: 36px;
-  background: red;
-  color: white;
-  border: 3px solid #aa0000;
-  border-radius: 12px;
-}
+  <div id="bomb-btn">
+    <button onclick="bomb()">💣</button>
+  </div>
+</div>
 
 <script src="js/main.js"></script>
 </body>
