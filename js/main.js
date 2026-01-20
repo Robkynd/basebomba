@@ -2,7 +2,7 @@ alert("BASEBOMBA TEMPLATE MAP OK");
 
 const TILE = 32;
 const COLS = 24;
-const ROWS = 14;
+const ROWS = 15;
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
