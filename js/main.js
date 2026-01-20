@@ -1,9 +1,4 @@
-console.log("JS LOADED");
-
-const TILE_EMPTY = 0;
-const TILE_WALL  = 1;
-const TILE_BLOCK = 2;
-const TILE_HARD  = 3;
+alert("BASEBOMBA RESET OK");
 
 const TILE = 32;
 const COLS = 24;
@@ -15,46 +10,45 @@ const ctx = canvas.getContext("2d");
 canvas.width = COLS * TILE;
 canvas.height = ROWS * TILE;
 
+// TILE TYPE
+const EMPTY = 0;
+const WALL  = 1;
+const BLOCK = 2;
+
 let map = [];
 
+// PLAYER
+const player = { x: 1, y: 1 };
+
+// MAP GENERATOR
 function generateMap() {
   map = [];
   for (let y = 0; y < ROWS; y++) {
     let row = [];
     for (let x = 0; x < COLS; x++) {
-      if (y === 0 || y === ROWS-1 || x === 0 || x === COLS-1) {
-        row.push(1); // wall
+      if (x === 0 || y === 0 || x === COLS-1 || y === ROWS-1) {
+        row.push(WALL);
       } else {
-      const r = Math.random();
-
-if (r < 0.15) row.push(TILE_BLOCK);
-else if (r < 0.25) row.push(TILE_HARD);
-else row.push(TILE_EMPTY);   // block / empty
+        row.push(Math.random() < 0.25 ? BLOCK : EMPTY);
       }
     }
     map.push(row);
   }
 
   // clear spawn
-  map[1][1] = 0;
-  map[1][2] = 0;
-  map[2][1] = 0;
+  map[1][1] = EMPTY;
+  map[1][2] = EMPTY;
+  map[2][1] = EMPTY;
 }
 
-const player = {
-  x: 1,
-  y: 1
-};
-
+// DRAW
 function draw() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
-      if (map[y][x] === TILE_WALL) ctx.fillStyle = "#555";
-else if (map[y][x] === TILE_BLOCK) ctx.fillStyle = "#a66";
-else if (map[y][x] === TILE_HARD) ctx.fillStyle = "#664400";
-else continue;
+      if (map[y][x] === WALL) ctx.fillStyle = "#555";
+      else if (map[y][x] === BLOCK) ctx.fillStyle = "#aa6666";
       else continue;
 
       ctx.fillRect(x*TILE, y*TILE, TILE, TILE);
@@ -66,19 +60,21 @@ else continue;
   ctx.fillRect(player.x*TILE, player.y*TILE, TILE, TILE);
 }
 
+// MOVE
 function move(dx, dy) {
   const nx = player.x + dx;
   const ny = player.y + dy;
 
-  if (map[ny][nx] === TITLE_EMPTY) {
+  if (map[ny][nx] === EMPTY) {
     player.x = nx;
     player.y = ny;
     draw();
   }
 }
 
-function dropBomb() {
-  alert("💣 soon...");
+// BOMB
+function bomb() {
+  alert("very soon 😌");
 }
 
 generateMap();
