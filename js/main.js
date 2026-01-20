@@ -65,3 +65,19 @@ function draw() {
 }
 
 draw();
+document.addEventListener("keydown", (e) => {
+  let nx = player.x;
+  let ny = player.y;
+
+  if (e.key === "ArrowUp") ny--;
+  if (e.key === "ArrowDown") ny++;
+  if (e.key === "ArrowLeft") nx--;
+  if (e.key === "ArrowRight") nx++;
+
+  // cek tabrakan
+  if (map[ny][nx] === 0) {
+    player.x = nx;
+    player.y = ny;
+    draw();
+  }
+});
