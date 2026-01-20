@@ -34,8 +34,8 @@ canvas {
 ======================= */
 #joystick {
   position: absolute;
-  left: 20px;
-  bottom: 20px;
+  left: 40px;
+  bottom: 100px;
   width: 140px;
   height: 140px;
   background: rgba(255,255,255,0.1);
@@ -62,8 +62,8 @@ canvas {
 #bomb-btn {
   pointer-events: auto;
   position: absolute;
-  left: 180px;    /* kanan joystick */
-  bottom: 70px;   /* sejajar tengah joystick */
+  left: 400px;    /* kanan joystick */
+  bottom: 100px;   /* sejajar tengah joystick */
 }
 
 #bomb-btn button {
