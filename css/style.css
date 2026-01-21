@@ -34,7 +34,7 @@ canvas {
    ANALOG JOYSTICK
 ======================= */
 #joystick {
-  position: absolute; /* penting, jangan fixed */
+  position: absolute;
   left: 20px;
   bottom: 20px;
   width: 140px;
@@ -62,9 +62,9 @@ canvas {
 ======================= */
 #bomb-btn {
   pointer-events: auto;
-  position: absolute; /* jangan fixed */
-  left: 180px;   /* kanan joystick */
-  bottom: 70px;  /* sejajar tengah joystick */
+  position: absolute;
+  left: 180px;
+  bottom: 70px;
 }
 
 #bomb-btn button {
@@ -88,5 +88,5 @@ canvas {
 ======================= */
 .tile {
   box-sizing: border-box;
-  border: 2px solid #000; /* outline pixel retro */
+  border: 2px solid #000;
 }
