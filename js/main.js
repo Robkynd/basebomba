@@ -3,10 +3,11 @@
 // =======================
 const COLS = 24;
 const ROWS = 14;
+const TILE = 32;
 
 const EMPTY = 0;
-const WALL = 1;
-const WOOD = 2;   // tembok kayu
+const WALL  = 1;
+const WOOD  = 2;   // tembok kayu
 const BRICK = 3;  // tembok bata
 
 let map = [];
@@ -15,16 +16,16 @@ let map = [];
 for(let y=0; y<ROWS; y++){
   map[y]=[];
   for(let x=0; x<COLS; x++){
-    // Border
+    // Border safe zone
     if(x===0 || x===COLS-1 || y===0 || y===ROWS-1){
       map[y][x] = EMPTY;
     }
-    // Inner pattern
+    // Inner WALL pattern
     else if(y%2===0 && x%2===0){
       map[y][x] = WALL;
     }
     else{
-      let r = Math.random();
+      const r = Math.random();
       if(r<0.3) map[y][x] = WOOD;
       else if(r<0.5) map[y][x] = BRICK;
       else map[y][x] = EMPTY;
@@ -33,7 +34,7 @@ for(let y=0; y<ROWS; y++){
 }
 
 // Spawn area safe (top-left)
-map[1][1]=map[1][2]=map[2][1]=EMPTY;
+map[1][1] = map[1][2] = map[2][1] = EMPTY;
 
 // =======================
 // PLAYER
@@ -45,7 +46,6 @@ let player = {x:1, y:1, color:'#00f'};
 // =======================
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
-const TILE = 32;
 
 canvas.width = COLS*TILE;
 canvas.height = ROWS*TILE;
@@ -68,22 +68,33 @@ function draw(){
       ctx.strokeRect(x*TILE, y*TILE, TILE, TILE);
     }
   }
+
   // Draw player
   ctx.fillStyle = player.color;
   ctx.fillRect(player.x*TILE+4, player.y*TILE+4, TILE-8, TILE-8);
 }
 
 // =======================
-// ANALOG STICK
+// JOYSTICK SETUP
 // =======================
 const joystick = document.getElementById('joystick');
 const thumb = document.getElementById('thumb');
 
+function centerThumb(){
+  thumb.style.left = `${joystick.offsetWidth/2 - thumb.offsetWidth/2}px`;
+  thumb.style.top  = `${joystick.offsetHeight/2 - thumb.offsetHeight/2}px`;
+}
+
+centerThumb();
+
 let dragging = false;
 
+// =======================
+// TOUCH EVENTS
+// =======================
 joystick.addEventListener('touchstart', e=>{
   e.preventDefault();
-  dragging=true;
+  dragging = true;
 });
 
 joystick.addEventListener('touchmove', e=>{
@@ -92,31 +103,32 @@ joystick.addEventListener('touchmove', e=>{
   const touch = e.touches[0];
   const rect = joystick.getBoundingClientRect();
 
-  let dx = touch.clientX - rect.left - rect.width/2;
-  let dy = touch.clientY - rect.top - rect.height/2;
+  let dx = touch.clientX - rect.left - joystick.offsetWidth/2;
+  let dy = touch.clientY - rect.top - joystick.offsetHeight/2;
 
-  const dist = Math.sqrt(dx*dx+dy*dy);
-  const maxDist = rect.width/2;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  const maxDist = joystick.offsetWidth/2;
 
-  if(dist>maxDist){
-    dx=dx/dist*maxDist;
-    dy=dy/dist*maxDist;
+  if(dist > maxDist){
+    dx = dx/dist*maxDist;
+    dy = dy/dist*maxDist;
   }
 
-  thumb.style.transform = `translate(${dx}px, ${dy}px)`;
+  thumb.style.left = `${joystick.offsetWidth/2 - thumb.offsetWidth/2 + dx}px`;
+  thumb.style.top  = `${joystick.offsetHeight/2 - thumb.offsetHeight/2 + dy}px`;
 
-  // move player tile-based
+  // Tile-based movement
   const nx = player.x + Math.sign(dx);
   const ny = player.y + Math.sign(dy);
   if(nx>=0 && nx<COLS && ny>=0 && ny<ROWS && map[ny][nx]===EMPTY){
-    player.x=nx;
-    player.y=ny;
+    player.x = nx;
+    player.y = ny;
   }
 });
 
 joystick.addEventListener('touchend', e=>{
-  dragging=false;
-  thumb.style.transform = `translate(0px,0px)`;
+  dragging = false;
+  centerThumb();
 });
 
 // =======================
@@ -129,34 +141,36 @@ joystick.addEventListener('mousedown', e=>{
 document.addEventListener('mousemove', e=>{
   if(!dragging) return;
   const rect = joystick.getBoundingClientRect();
-  let dx = e.clientX - rect.left - rect.width/2;
-  let dy = e.clientY - rect.top - rect.height/2;
 
-  const dist = Math.sqrt(dx*dx+dy*dy);
-  const maxDist = rect.width/2;
+  let dx = e.clientX - rect.left - joystick.offsetWidth/2;
+  let dy = e.clientY - rect.top - joystick.offsetHeight/2;
 
-  if(dist>maxDist){
-    dx=dx/dist*maxDist;
-    dy=dy/dist*maxDist;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  const maxDist = joystick.offsetWidth/2;
+
+  if(dist > maxDist){
+    dx = dx/dist*maxDist;
+    dy = dy/dist*maxDist;
   }
 
-  thumb.style.transform = `translate(${dx}px, ${dy}px)`;
+  thumb.style.left = `${joystick.offsetWidth/2 - thumb.offsetWidth/2 + dx}px`;
+  thumb.style.top  = `${joystick.offsetHeight/2 - thumb.offsetHeight/2 + dy}px`;
 
   const nx = player.x + Math.sign(dx);
   const ny = player.y + Math.sign(dy);
   if(nx>=0 && nx<COLS && ny>=0 && ny<ROWS && map[ny][nx]===EMPTY){
-    player.x=nx;
-    player.y=ny;
+    player.x = nx;
+    player.y = ny;
   }
 });
 
 document.addEventListener('mouseup', e=>{
   dragging=false;
-  thumb.style.transform = `translate(0px,0px)`;
+  centerThumb();
 });
 
 // =======================
-// BOMB (placeholder)
+// BOMB BUTTON
 // =======================
 const bombBtn = document.querySelector('#bomb-btn button');
 bombBtn.addEventListener('click', ()=>{
